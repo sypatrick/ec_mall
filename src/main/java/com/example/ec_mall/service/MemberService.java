@@ -9,6 +9,7 @@ import com.example.ec_mall.util.SHA256;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,13 +18,13 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberMapper memberMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void signUpMember(MemberRequestDTO.RequestDTO memberRequestDTO) {
         MemberDao member = MemberDao.builder()
                 .email(memberRequestDTO.getEmail())
                 .nickName(memberRequestDTO.getNickName())
-                //SHA256 암호화
-                .password(SHA256.encrypt(memberRequestDTO.getPassword()))
+                .password(bCryptPasswordEncoder.encode(memberRequestDTO.getPassword()))
                 .createdBy(memberRequestDTO.getEmail())
                 .build();
 
@@ -71,5 +72,9 @@ public class MemberService {
             log.error("Invalid Login");
             throw new APIException(ErrorCode.NOT_FOUND_ACCOUNT);
         }
+    }
+
+    public MemberDao profile(String email){
+        return memberMapper.findByEmail(email);
     }
 }
