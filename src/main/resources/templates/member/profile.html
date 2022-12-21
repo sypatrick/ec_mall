@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+  <div>
+    <table>
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>My Profile</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:if="${memberDao}">
+        <td th:text="${memberDao.getEmail()}"></td>
+        <td th:text="${memberDao.getNickName()}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <a href="/">Home</a>
+</div>
+</body>
+</html>

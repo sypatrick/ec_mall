@@ -32,4 +32,9 @@
         where email = #{email}
           and password = #{password}
     </select>
+
+    <select id="findByEmail" resultType="MemberDao">
+        select * from account
+        where email = #{email}
+    </select>
 </mapper>
