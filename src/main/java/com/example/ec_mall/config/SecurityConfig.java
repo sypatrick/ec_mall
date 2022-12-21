@@ -12,6 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
+/**
+ * SpringSecurity
+ * 자바 서버 개발을 위해 필요로 한 인증, 권한 부여 및 기타 보안 기능을 제공하는 프레임워크(클래스와 인터페이스 모임)
+ */
 @Slf4j
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -22,6 +26,12 @@ public class SecurityConfig{
     public UserDetailsService userDetailsService(){
         return new UserDetailsServiceImpl(memberMapper);
     }
+
+    /**
+     * org.springframework.security.crypto.. 에 보면 다양한 암호화 방식을 적용할 수 있다.
+     * 해당 Encoder들은 PasswordEncoder 인터페이스의 구현체들이며
+     * encode(), boolean 타입의 matches() 등의 메소드를 활용할 수 있다.
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
