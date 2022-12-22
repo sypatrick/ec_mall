@@ -28,7 +28,7 @@ public class MemberController {
 
             model.addAttribute("memberDao", memberDao);
         }
-
+        else System.out.println("tlqkf");
         return "member/profile";
     }
 

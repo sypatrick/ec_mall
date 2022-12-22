@@ -85,7 +85,7 @@ public class AuthService {
                     )
             );
             TokenDto tokenDto = new TokenDto(jwtTokenProvider.generateToken(authentication));
-            System.out.println(tokenDto);
+            System.out.println(signInReq.getEmail());
 
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + tokenDto.getAccess_token());

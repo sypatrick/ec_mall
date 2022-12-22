@@ -61,6 +61,7 @@ public class SecurityConfig {
                         "/",
                         "/auth/signUp",
                         "/favicon.ico",
+                        "/member/profile",
                         "/auth/signIn*"
                 ).permitAll()
                 .anyRequest().authenticated();
