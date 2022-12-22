@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/member",  consumes = "application/json")
+@RequestMapping(value = "/member")
 public class MemberController {
     private final MemberService memberService;
     @GetMapping("/profile")

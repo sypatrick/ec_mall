@@ -2,6 +2,7 @@ package com.example.ec_mall.dto.request;
 
 import lombok.*;
 import javax.validation.constraints.*;
+import java.util.Set;
 
 public class MemberRequestDTO {
 
@@ -28,6 +29,8 @@ public class MemberRequestDTO {
         @NotBlank(message = "비밀번호를 입력하세요")
         @Pattern(regexp = "(?=.*[0-9])(?=.*[A-Za-z])(?=.*\\W)(?=\\S+$).{8,16}", message = "8 ~ 16자로 생성하세요. 대소문자, 특수문자, 숫자를 포함하여야 합니다.")
         private String password;
+
+        private Set<AuthorityDTO> authorityDTOSet;
     }
     @Data
     @Builder
@@ -36,6 +39,12 @@ public class MemberRequestDTO {
     public static class LoginDTO {
         private String email;
         private String password;
+    }
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AuthorityDTO{
+        private String authorityName;
     }
 
 }

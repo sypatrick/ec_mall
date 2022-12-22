@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/auth")
@@ -50,13 +51,13 @@ public class AuthController {
         ResponseEntity<TokenDto> tokenDtoResponseEntity = authService.signIn(signInReq);
         Cookie cookie = new Cookie(
                 "access_token",
-                tokenDtoResponseEntity.getBody().getAccess_token()
+                Objects.requireNonNull(tokenDtoResponseEntity.getBody()).getAccess_token()
         );
 
         cookie.setPath("/");
         cookie.setMaxAge(Integer.MAX_VALUE);
 
         res.addCookie(cookie);
-        return "redirect:/";
+        return "redirect:/member/profile";
     }
 }

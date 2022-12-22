@@ -10,12 +10,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Key;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -27,6 +34,8 @@ public class JwtTokenProvider {
     private long expire_time;
 
     private final UserDetailsService userDetailsService;
+    private static final String AUTHORITIES_KEY = "auth";
+    private Key key;
 
     /**
      * 적절한 설정을 통해 토큰을 생성하여 반환
@@ -34,7 +43,6 @@ public class JwtTokenProvider {
      * @return
      */
     public String generateToken(Authentication authentication) {
-
         Claims claims = Jwts.claims().setSubject(authentication.getName());
 
         Date now = new Date();
@@ -59,7 +67,6 @@ public class JwtTokenProvider {
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
-
     /**
      * http 헤더로부터 bearer 토큰을 가져옴.
      * @param req

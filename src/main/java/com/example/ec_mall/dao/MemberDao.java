@@ -3,7 +3,6 @@ package com.example.ec_mall.dao;
 import lombok.Builder;
 import lombok.Data;
 import java.time.LocalDateTime;
-
 @Data
 @Builder
 public class MemberDao {

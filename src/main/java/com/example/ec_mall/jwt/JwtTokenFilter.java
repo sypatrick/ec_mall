@@ -1,6 +1,7 @@
 package com.example.ec_mall.jwt;
 
 import com.example.ec_mall.exception.JwtCustomException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -12,15 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 // Request 이전에 1회 작동할 필터
+@RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
 
-    public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
-
     @Override
-    protected void doFilterInternal(
+    protected void doFilterInternal( // 토큰의 인증 정보를 Security Context에 저장하는 역할 수행
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain

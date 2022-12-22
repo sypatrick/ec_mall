@@ -18,8 +18,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
 
 @Service
 @Log4j2
@@ -34,15 +38,15 @@ public class AuthService {
      * @param memberRequestDTO 가입할 유저의 정보 Dto
      * @return 가입된 유저 정보
      */
+    @Transactional
     public int signUpMember(RequestDTO memberRequestDTO) {
+
         MemberDao member = MemberDao.builder()
                 .email(memberRequestDTO.getEmail())
                 .nickName(memberRequestDTO.getNickName())
-                //SHA256 암호화
                 .password(bCryptPasswordEncoder.encode(memberRequestDTO.getPassword()))
                 .createdBy(memberRequestDTO.getEmail())
                 .build();
-
         /**
          * Log 레벨
          * trace < debug < info < warn < error
@@ -74,7 +78,6 @@ public class AuthService {
      * @return json web token
      */
     public ResponseEntity<TokenDto> signIn(LoginDTO signInReq) {
-        try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             signInReq.getEmail(),
@@ -82,13 +85,11 @@ public class AuthService {
                     )
             );
             TokenDto tokenDto = new TokenDto(jwtTokenProvider.generateToken(authentication));
+            System.out.println(tokenDto);
 
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + tokenDto.getAccess_token());
 
             return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
-        } catch (AuthenticationException e) {
-            throw new JwtCustomException("Invalid credentials supplied", HttpStatus.UNPROCESSABLE_ENTITY);
-        }
     }
 }
