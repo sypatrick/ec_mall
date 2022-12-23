@@ -54,7 +54,7 @@ public class SecurityConfig{
                 .formLogin() // 로그인 폼 아래와 같이 설정
                 .loginPage("/member/signIn") //로그인 페이지, 인증을 필요로 하는 endpoint에 접근했을 때 해당 url로 이동
                 .loginProcessingUrl("/member/doSignIn") //post 요청이 오면 로그인 처리를 수행, 스프링 시큐리티가 해당 주소로 요청오는 로그인 로직 가져감 (loadUserByUsername)
-                .usernameParameter("email")
+                .usernameParameter("email") // 초기값 : username
                 .passwordParameter("password") //password 같은경우 매개변수 초기값이 password 이다.(매개변수명이 password라면 생략가능)
                 .defaultSuccessUrl("/") // 인증 성공시 redirect page
                 .failureUrl("/member/login?fail=true"); // 실패 시
@@ -77,7 +77,7 @@ public class SecurityConfig{
                 .maxSessionsPreventsLogin(false); // false : 중복 로그인시 이전 로그인 로그아웃 처리
         http
                 .authorizeRequests() //인가 요청 관련
-                .antMatchers("/","/member/signUp","/member/signIn","/member/doSignIn", "/member/profile")// 해당 경로들은
+                .antMatchers("/","/member/signUp","/member/signIn","/member/doSignIn")// 해당 경로들은
                 .permitAll() // 접근을 허용
                 .anyRequest().authenticated(); // 다른 모든 요청은 인증이 되어야 들어갈 수 있음.
 

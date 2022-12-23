@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
    @RestController
     -> @Controller + @ResponseBody
@@ -29,7 +31,7 @@ public class MemberController {
         return "member/signUp";
     }
     @PostMapping("/signUp")
-    public String signUpMember(@Validated MemberRequestDTO.RequestDTO memberRequestDTO) {
+    public String signUpMember(@Valid MemberRequestDTO.RequestDTO memberRequestDTO) {
         memberService.signUpMember(memberRequestDTO);
         return "redirect:/member/signIn";
     }
