@@ -54,6 +54,6 @@ public class AuthController {
         cookie.setMaxAge(Integer.MAX_VALUE);
 
         res.addCookie(cookie);
-        return "redirect:/member/profile";
+        return "redirect:/";
     }
 }

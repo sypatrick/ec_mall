@@ -6,7 +6,6 @@ import com.example.ec_mall.dto.request.MemberRequestDTO.RequestDTO;
 import com.example.ec_mall.dto.request.MemberRequestDTO.LoginDTO;
 import com.example.ec_mall.exception.APIException;
 import com.example.ec_mall.exception.ErrorCode;
-import com.example.ec_mall.exception.JwtCustomException;
 import com.example.ec_mall.jwt.JwtTokenProvider;
 import com.example.ec_mall.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 
 @Service
 @Log4j2
