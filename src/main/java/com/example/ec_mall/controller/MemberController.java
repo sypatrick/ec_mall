@@ -31,5 +31,4 @@ public class MemberController {
         else System.out.println("tlqkf");
         return "member/profile";
     }
-
 }
