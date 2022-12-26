@@ -41,7 +41,7 @@ public class AuthController {
 
         return "member/signIn";
     }
-
+    //HttpServletResponse 객체를 통해서 쿠키에 값을 담아 서버에서 전송
     @PostMapping("/signIn")
     public String signIn(@Valid @RequestBody LoginDTO signInReq, HttpServletResponse res) {
         ResponseEntity<TokenDto> tokenDtoResponseEntity = authService.signIn(signInReq);
