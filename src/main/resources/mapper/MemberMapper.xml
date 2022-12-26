@@ -10,7 +10,8 @@
                 created_by,
                 created_date,
                 updated_by,
-                updated_date
+                updated_date,
+                roles
         ) values
         (
                 #{email},
@@ -19,7 +20,8 @@
                 #{createdBy},
                 now(),
                 #{updatedBy},
-                now()
+                now(),
+                'ROLE_USER'
         )
     </insert>
 

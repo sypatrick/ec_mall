@@ -1,6 +1,8 @@
 package com.example.ec_mall.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.example.ec_mall.dao.MemberDao;
@@ -22,7 +24,12 @@ public class MemberDetailsService implements UserDetailsService {
         System.out.println("email in loadUserByUsername = " + email);
         MemberDao memberDao = memberMapper.findByEmail(email);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-
-        return new User(memberDao.getEmail(), memberDao.getPassword(), grantedAuthorities);
+        System.out.println("roles in loadUserByUsername = " + memberDao.getAuthorities());
+        //return new User(memberDao.getEmail(), memberDao.getPassword(), grantedAuthorities);
+        return User.builder()
+                .username(memberDao.getUsername())
+                .password(memberDao.getPassword())
+                .roles(memberDao.getRoles().toArray(new String[0]))
+                .build();
     }
 }

@@ -5,6 +5,7 @@ import com.example.ec_mall.service.AuthService;
 import com.example.ec_mall.dto.request.MemberRequestDTO.RequestDTO;
 import com.example.ec_mall.dto.request.MemberRequestDTO.LoginDTO;
 import lombok.RequiredArgsConstructor;
+import org.apache.el.parser.Token;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Objects;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/auth")
@@ -43,17 +46,8 @@ public class AuthController {
     }
     //HttpServletResponse 객체를 통해서 쿠키에 값을 담아 서버에서 전송
     @PostMapping("/signIn")
-    public String signIn(@Valid @RequestBody LoginDTO signInReq, HttpServletResponse res) {
-        ResponseEntity<TokenDto> tokenDtoResponseEntity = authService.signIn(signInReq);
-        Cookie cookie = new Cookie(
-                "access_token",
-                Objects.requireNonNull(tokenDtoResponseEntity.getBody()).getAccess_token()
-        );
-
-        cookie.setPath("/");
-        cookie.setMaxAge(Integer.MAX_VALUE);
-
-        res.addCookie(cookie);
-        return "redirect:/";
+    public ResponseEntity<TokenDto> signIn(@Valid @RequestBody LoginDTO signInReq) {
+        TokenDto tokenDto = authService.signIn(signInReq);
+        return ResponseEntity.status(OK).body(tokenDto);
     }
 }

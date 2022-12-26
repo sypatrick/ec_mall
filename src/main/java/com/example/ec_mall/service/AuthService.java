@@ -20,6 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 @Log4j2
@@ -36,11 +39,13 @@ public class AuthService {
      */
     @Transactional
     public int signUpMember(RequestDTO memberRequestDTO) {
-
+        //List<String> memberRoles = new ArrayList<>();
+        //memberRoles.add("ROLE_USER");
         MemberDao member = MemberDao.builder()
                 .email(memberRequestDTO.getEmail())
                 .nickName(memberRequestDTO.getNickName())
                 .password(bCryptPasswordEncoder.encode(memberRequestDTO.getPassword()))
+                //.roles(memberRoles)
                 .createdBy(memberRequestDTO.getEmail())
                 .build();
         /**
@@ -73,19 +78,16 @@ public class AuthService {
      * @param signInReq 유저의 이메일과 비밀번호
      * @return json web token
      */
-    public ResponseEntity<TokenDto> signIn(LoginDTO signInReq) {
+    public TokenDto signIn(LoginDTO signInReq) {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             signInReq.getEmail(),
                             signInReq.getPassword()
                     )
             );
-            TokenDto tokenDto = new TokenDto(jwtTokenProvider.generateToken(authentication));
+            TokenDto tokenDto = jwtTokenProvider.generateToken(authentication);
             System.out.println(signInReq.getEmail());
 
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("Authorization", "Bearer " + tokenDto.getAccess_token());
-
-            return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
+            return tokenDto;
     }
 }

@@ -1,10 +1,15 @@
 package com.example.ec_mall.dto.jwt;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Builder
+@Data
 @AllArgsConstructor
 public class TokenDto {
-    private String access_token;
+    private String grantType;
+    private String accessToken;
+    private String refreshToken;
 }

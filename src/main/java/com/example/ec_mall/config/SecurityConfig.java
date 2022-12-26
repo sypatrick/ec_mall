@@ -50,9 +50,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        //Rest Api이므로 basic auth(), csrf 보안을 사용하지 않음.
         http
                 .csrf().disable()
-                .formLogin();
+                .httpBasic().disable();
 
         // Entry Points
         http
@@ -61,9 +62,9 @@ public class SecurityConfig {
                         "/",
                         "/auth/signUp",
                         "/favicon.ico",
-                        "/member/profile",
                         "/auth/signIn*"
                 ).permitAll()
+                //.antMatchers("/member/profile").hasRole("USER")
                 .anyRequest().authenticated();
 
         // 세션사용하지 않음
