@@ -64,7 +64,7 @@ public class SecurityConfig {
                         "/favicon.ico",
                         "/auth/signIn*"
                 ).permitAll()
-                //.antMatchers("/member/profile").hasRole("USER")
+                .antMatchers("/member/profile").hasRole("USER")
                 .anyRequest().authenticated();
 
         // 세션사용하지 않음

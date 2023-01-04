@@ -21,7 +21,7 @@
                 now(),
                 #{updatedBy},
                 now(),
-                'ROLE_USER'
+                #{roles}
         )
     </insert>
 

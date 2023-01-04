@@ -10,9 +10,6 @@ import com.example.ec_mall.jwt.JwtTokenProvider;
 import com.example.ec_mall.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,8 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 
 @Service
@@ -39,13 +35,11 @@ public class AuthService {
      */
     @Transactional
     public int signUpMember(RequestDTO memberRequestDTO) {
-        //List<String> memberRoles = new ArrayList<>();
-        //memberRoles.add("ROLE_USER");
         MemberDao member = MemberDao.builder()
                 .email(memberRequestDTO.getEmail())
                 .nickName(memberRequestDTO.getNickName())
                 .password(bCryptPasswordEncoder.encode(memberRequestDTO.getPassword()))
-                //.roles(memberRoles)
+                .roles(Collections.singletonList("ROLE_USER"))
                 .createdBy(memberRequestDTO.getEmail())
                 .build();
         /**
@@ -62,11 +56,11 @@ public class AuthService {
             log.error("DuplicatedEmail, {}", member.getEmail());
             throw new APIException(ErrorCode.ALREADY_SAVED_EMAIL);
         }
-//
-//        if(memberMapper.signUpMember(member) != 1){
-//            log.error("registration ERROR! {}", member);
-//            throw new RuntimeException("회원가입 메소드 확인\n" + member);
-//        }
+
+        if(memberMapper.signUpMember(member) != 1){
+            log.error("registration ERROR! {}", member);
+            throw new RuntimeException("회원가입 메소드 확인\n" + member);
+        }
         return memberMapper.signUpMember(member);
     }
 

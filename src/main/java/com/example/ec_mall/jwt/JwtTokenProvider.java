@@ -50,7 +50,7 @@ public class JwtTokenProvider {
         Date accessTokenExpiresIn = new Date(now + expire_time);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim("auth", "ROLE_USER")
+                .claim("auth", authorities)
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(SignatureAlgorithm.HS256, secret_key)
                 .compact();
@@ -67,19 +67,6 @@ public class JwtTokenProvider {
                 .refreshToken(refreshToken)
                 .build();
     }
-//    public String generateToken(Authentication authentication) {
-//        Claims claims = Jwts.claims().setSubject(authentication.getName());
-//
-//        Date now = new Date();
-//        Date expiresIn = new Date(now.getTime() + expire_time);
-//
-//        return Jwts.builder()
-//                .setClaims(claims)
-//                .setIssuedAt(now)
-//                .setExpiration(expiresIn)
-//                .signWith(SignatureAlgorithm.HS256, secret_key)
-//                .compact();
-//    }
 
     /**
      * 토큰으로부터 클레임을 만들고, 이를 통해 User 객체를 생성하여 Authentication 객체를 반환
@@ -105,12 +92,6 @@ public class JwtTokenProvider {
         UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
-//    public Authentication getAuthentication(String token) {
-//        String username = Jwts.parser().setSigningKey(secret_key).parseClaimsJws(token).getBody().getSubject();
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-//
-//        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-//    }
     /**
      * http 헤더로부터 bearer 토큰을 가져옴.
      * @param req
